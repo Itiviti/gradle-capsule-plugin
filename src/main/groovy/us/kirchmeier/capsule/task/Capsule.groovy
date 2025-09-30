@@ -57,7 +57,7 @@ class Capsule extends Jar {
   Capsule() {
     capsuleConfiguration = project.configurations.capsule
     capletConfiguration = project.configurations.caplet
-    classifier = 'capsule'
+    archiveClassifier.set('capsule')
 
     project.afterEvaluate {
       finalizeSettings()
@@ -145,13 +145,13 @@ class Capsule extends Jar {
   }
 
   protected void applyDefaultCapsuleSet() {
-    if (!capsuleConfiguration) return
+    if (!capsuleConfiguration || !capsuleFilter) return
 
     from(capsuleConfiguration.collect({ project.zipTree(it) }), capsuleFilter)
   }
 
   protected void applyDefaultCapletSet() {
-    if (!capletConfiguration) return
+    if (!capletConfiguration || !capsuleFilter) return
 
     from(capletConfiguration.collect({ project.zipTree(it) }), { exclude 'Capsule.class'} )
   }
