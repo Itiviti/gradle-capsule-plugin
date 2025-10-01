@@ -43,9 +43,12 @@ gradlePlugin {
     }
 }
 
-// Optional: only if you plan Maven Central publishing (not just Plugin Portal)
-signing {
-    sign publishing.publications
+publishing {
+    repositories {
+        maven {
+            url = uri("https://ulcentral.itiviti.com/artifactory/ext-snapshot-local")
+        }
+    }
 }
 
 tasks.test {
