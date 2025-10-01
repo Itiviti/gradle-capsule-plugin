@@ -43,14 +43,6 @@ gradlePlugin {
     }
 }
 
-publishing {
-    repositories {
-        maven {
-            url = uri("https://ulcentral.itiviti.com/artifactory/ext-snapshot-local")
-        }
-    }
-}
-
 tasks.test {
     useTestNG()
 }
