@@ -145,13 +145,13 @@ class Capsule extends Jar {
   }
 
   protected void applyDefaultCapsuleSet() {
-    if (!capsuleConfiguration || !capsuleFilter) return
+    if (!capsuleConfiguration) return
 
     from(capsuleConfiguration.collect({ project.zipTree(it) }), capsuleFilter)
   }
 
   protected void applyDefaultCapletSet() {
-    if (!capletConfiguration || !capsuleFilter) return
+    if (!capletConfiguration) return
 
     from(capletConfiguration.collect({ project.zipTree(it) }), { exclude 'Capsule.class'} )
   }
