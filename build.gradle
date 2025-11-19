@@ -2,6 +2,7 @@ plugins {
     id "groovy"
     id "maven-publish"
     id "idea"
+    id "com.gradle.plugin-publish" version "1.2.1"
 }
 
 description = """
@@ -24,6 +25,21 @@ dependencies {
     implementation gradleApi()
     implementation localGroovy()
     testImplementation 'org.testng:testng:6.8.8'
+}
+
+gradlePlugin {
+    website.set("https://github.com/Itiviti/gradle-capsule-plugin")
+    vcsUrl.set("https://github.com/Itiviti/gradle-capsule-plugin.git")
+
+    plugins {
+        create("capsulePlugin") {
+            id = "us.kirchmeier.capsule"
+            displayName = "Gradle Capsule Plugin"
+            description = project.description
+            tags.set(["shade", "fatjar", "uberjar", "onejar", "capsule"])
+            implementationClass = "us.kirchmeier.capsule.CapsuleGradlePlugin"
+        }
+    }
 }
 
 def publishing = project.extensions.getByType(PublishingExtension)
