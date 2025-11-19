@@ -2,7 +2,6 @@ plugins {
     id "groovy"
     id "maven-publish"
     id "idea"
-    id "com.gradle.plugin-publish" version "1.2.1"
 }
 
 description = """
@@ -27,18 +26,24 @@ dependencies {
     testImplementation 'org.testng:testng:6.8.8'
 }
 
-gradlePlugin {
-    website.set("https://github.com/danthegoodman/gradle-capsule-plugin")
-    vcsUrl.set("https://github.com/danthegoodman/gradle-capsule-plugin.git")
-
-    plugins {
-        create("capsulePlugin") {
-            id = "us.kirchmeier.capsule"
-            displayName = "Gradle Capsule Plugin"
-            description = project.description
-            tags.set(["shade", "fatjar", "uberjar", "onejar", "capsule"])
-            implementationClass = "us.kirchmeier.capsule.CapsuleGradlePlugin"
+def publishing = project.extensions.getByType(PublishingExtension)
+publishing.repositories {
+    maven {
+        url project.properties.isRelease ? project.properties.releasePublishRepo : project.properties.snapshotPublishRepo
+        credentials {
+            username = project.properties.repoUsername
+            password = project.properties.repoPassword
         }
+    }
+}
+
+publishing.publications {
+    maven(MavenPublication) {
+        from components.java
+
+        groupId = project.group
+        artifactId = project.name
+        version = project.properties.isRelease ? project.version : "${project.version}-SNAPSHOT"
     }
 }
 
